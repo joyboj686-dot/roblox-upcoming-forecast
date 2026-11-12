@@ -31,7 +31,7 @@ export const DEFAULTS: Params = {
   halfLife: 12,
   momentum: 1,
   playW: 0,
-  missRank: 60,
+  missRank: 100, // about the chart's length: a game absent from a read sat just below the bottom, so a newcomer's climb counts in full
   sigma: 2,
   sigmaFar: 2,
   tail: 0.4,
@@ -39,7 +39,7 @@ export const DEFAULTS: Params = {
   maxAgeDays: 28,
   ageRampHours: 48,
   slopeLag: 24,
-  slopeW: 0.3,
+  slopeW: 0.2,
   playG: 1,
 };
 
@@ -144,7 +144,7 @@ export function forecast(reads: Read[], task: Task, P: Params = DEFAULTS): Forec
   });
 
   const dens = (c: number, k: number, mul: number) => {
-    const s = P.sigma + P.sigmaFar * Math.log(1 + c);
+    const s = (P.sigma + P.sigmaFar * Math.log(1 + c));
     const z = (k - c) / s;
     return mul * ((1 - P.tail) * Math.exp(-0.5 * z * z) / s + P.tail / n);
   };
